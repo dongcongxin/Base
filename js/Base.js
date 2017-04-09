@@ -26,9 +26,10 @@
     };
    //基础库
     function Base(){
+        this.elements = [];
     }
 //创建一个数组,用来保存获取的节点和节点数组
-  Base.elements = [];
+
   //获取Id节点
   Base.getId = function(id){
     this.element.push(document.getElementById(id));
@@ -81,6 +82,15 @@ Base.prototype.getElement = function(num){
         }
         return this;
 };
+ //添加class
+Base.prototype.addClass = function(className){
+     for(var i=0;i<this.elements.length;i++){
+         if(this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))) {
+             this.elements[i].className += ""+className;
+         }
+     }
+     return this;
+}
   //设置innerHTML
     Base.prototype.html=function(str){
         for(var i=0;i<this.elements.length;i++){
