@@ -104,8 +104,8 @@ Base.prototype.addClass = function(className){
  //设置link或style的css规则
 Base.prototype.addRule=function(num,selectorText,cssText,position){
     var sheet = document.styleSheets[num];
-    if(typeof sheet.insetRule!='undefined'){//w3c
-        sheet.insertRule('selectorText+'{'+cssText+'}',position);
+    if(typeof sheet.insertRule!='undefined'){//w3c
+        sheet.insertRule(selectorText+'{'+cssText+'}',position);
 
     }else if(typeof sheet.addRule!='undefined'){//IE
         sheet.addRule('selectorText','classText',position);
