@@ -101,6 +101,32 @@ Base.prototype.addClass = function(className){
      return this;
  }
  }
+ //设置link或style的css规则
+Base.prototype.addRule=function(num,selectorText,cssText,position){
+    var sheet = document.styleSheets[num];
+    if(typeof sheet.insetRule!='undefined'){//w3c
+        sheet.insertRule('selectorText+'{'+cssText+'}',position);
+
+    }else if(typeof sheet.addRule!='undefined'){//IE
+        sheet.addRule('selectorText','classText',position);
+    }
+    return this;
+
+}
+//删除link或style的css规则
+Base.prototype.removeRule = function(num,index){
+    var sheet =document.styleSheets[num];
+    if(typeof sheet.deleteRule!='undefined'){//'W3c'
+        sheet.delectRule(index);
+
+    }else if(typeof sheet.removeRule!='undefined'){//IE
+        sheet.removeRule(index);
+
+    }
+    return this;
+
+
+}
 
   //设置innerHTML
     Base.prototype.html=function(str){
