@@ -91,6 +91,17 @@ Base.prototype.addClass = function(className){
      }
      return this;
 }
+ //移除className
+ Base.prototype.removeClass=function(className) {
+     for(var i=0;i<this.elements.length;i++){
+         if(this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))) {
+           this.classNames[i].className = this.elements[i].className.replace(new RegExp('(\\s|^)')+className+'(\\s|$),');
+         }
+     }
+     return this;
+ }
+ }
+
   //设置innerHTML
     Base.prototype.html=function(str){
         for(var i=0;i<this.elements.length;i++){
