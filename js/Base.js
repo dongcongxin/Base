@@ -138,6 +138,28 @@ Base.prototype.removeRule = function(num,index){
         }
         return this;
     };
+//设置鼠标移入移出方法
+   Base.prototype.hover=function(over,out){
+       for(vari = 0;i<this.elements;i++){
+           this.elements[i].onmouseover=over;
+           this.elements[i].onmouseout=out;
+       }
+       return this;
+   }
+//设置显示
+ Base.prototype.show=function(){
+    for(var i = 0;i<this.elements.length;i++){
+        this.elements[i].style.display="block";
+    }
+    return this;
+ }
+ //设置隐藏
+Base.prototype.hide=function(){
+    for(var i = 0;i<this.elements.length;i++){
+        this.elements[i].style.display="hide";
+    }
+    return this;
+}
  //触发click事件
     Base.prototype.click=function(fn){
         for(var i=0;i<this.elements.length;i++){
@@ -146,7 +168,14 @@ Base.prototype.removeRule = function(num,index){
         return this;
     };
 
-
+//封装下拉菜单
+window.onload=function(){
+    $().getClass('member').hover(function(){
+        $().getTagName('ul').show();
+    },function(){
+        $().getTagName("ul").hide();
+    })
+}
 
 
 
