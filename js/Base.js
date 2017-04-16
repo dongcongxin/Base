@@ -71,12 +71,8 @@ Base.prototype.getElement = function(num){
   //设置css
     Base.prototype.css=function(attr,value){
         for(var i=0;i<this.elements.length;i++){
-            if(arguments.length==1){
-              if(typeof window.getComputedStyle!='undefined'){//w3c
-                  return window.getComputedStyle(this.elements[i],null)[attr]
-              }else if(typeof this.elements[i].currentStyle!='undefined'){//IE
-                 return this.elements[i].currentStyle[attr];
-              }
+            if(arguments.length==1) {
+              return  getStyle(this.elements[i],attr);
             }
             this.elements[i].style[attr]=value;
         }
@@ -85,7 +81,7 @@ Base.prototype.getElement = function(num){
  //添加class
 Base.prototype.addClass = function(className){
      for(var i=0;i<this.elements.length;i++){
-         if(this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))) {
+         if(!hasClass(this.elements[i],className)) {
              this.elements[i].className += ""+className;
          }
      }
@@ -94,7 +90,7 @@ Base.prototype.addClass = function(className){
  //移除className
  Base.prototype.removeClass=function(className) {
      for(var i=0;i<this.elements.length;i++){
-         if(this.elements[i].className.match(new RegExp('(\\s|^)'+className+'(\\s|$)'))) {
+         if(!hasClass(this.elements[i],className) {
            this.classNames[i].className = this.elements[i].className.replace(new RegExp('(\\s|^)')+className+'(\\s|$),');
          }
      }
@@ -104,25 +100,14 @@ Base.prototype.addClass = function(className){
  //设置link或style的css规则
 Base.prototype.addRule=function(num,selectorText,cssText,position){
     var sheet = document.styleSheets[num];
-    if(typeof sheet.insertRule!='undefined'){//w3c
-        sheet.insertRule(selectorText+'{'+cssText+'}',position);
-
-    }else if(typeof sheet.addRule!='undefined'){//IE
-        sheet.addRule('selectorText','classText',position);
-    }
+   insertRule(sheet,electorText,cssText,position);
     return this;
 
 }
-//删除link或style的css规则
+//移除link或style的css规则
 Base.prototype.removeRule = function(num,index){
     var sheet =document.styleSheets[num];
-    if(typeof sheet.deleteRule!='undefined'){//'W3c'
-        sheet.delectRule(index);
-
-    }else if(typeof sheet.removeRule!='undefined'){//IE
-        sheet.removeRule(index);
-
-    }
+    delectRule(sheet,index);
     return this;
 
 
@@ -160,6 +145,83 @@ Base.prototype.hide=function(){
     }
     return this;
 }
+//设置物体居中
+Base.prototype.centent =function(width,height){
+    var top = (document.documentElement.clientHeight-250)/2;
+    var left = (document.docuemntElement.clientWidth-350)/2;
+    for(var i = 0;i<this.elements;i++){
+        this.elements[i].style.top = top+'px';
+        this.elements[i].style.left = left+"px";
+    }
+    return this;
+};
+
+/***********************************************/
+//跨浏览器获取视口大小
+function getinner(){
+    if(typeof window.innerWidth !='undefined'){
+        return{
+            width:width.innerWidth;
+            height:height.innerHeight;
+        }
+        else{
+            return {
+                width:document.documentElement.clientWidth;
+                height:document.documentElement.clientHeight;
+            }
+        }
+    }
+}
+
+function getStyle(element,attr){
+    if(typeof window.getComputedStyle!='undefined'){//w3c
+        return window.getComputedStyle(element,null)[attr]
+    }else if(element.currentStyle!='undefined'){//IE
+        return element.currentStyle[attr];
+    }
+}
+}
+//判断class是否存在
+function hasClass(element,className){
+    return this.elements[i].className.match(new RegExp('(\\s/^)'+className+'(\\s|$)'));
+}
+//跨浏览器添加link规则
+function insertRule(sheet,electorText,cssText,position){
+    if(typeof sheet.insertRule!='undefined'){//W3c
+        sheet.insertRule(selectorText+'{'+cssText+')',position);
+    }else if(typeof sheet.addRule!='undefined'){//IE
+        sheet.addRule(selectorText,cssText,position);
+
+    }
+}
+//跨浏览器移除link规则
+function delectRule(sheet,index){
+    if(typeof sheet.delectRule!='undefined'){//w3c
+        sheet.delectRule(index);
+    }else if(typeof sheet.removeRule!='undefined'){//Ie
+        sheet.removeRule(index);
+
+    }
+
+}
+/***********************************************/
+//锁屏功能
+Base.prototype.lock = function(){
+    for(var i =0;i<this.elements.length;i++){
+        this.elements[i].style.width = getinner().width+'px';
+        this.elements[i].style.height = getinner().height+'px';
+        this.elements[i].style.display = 'block';
+    }
+    return this;
+};
+
+
+Base.prototype.unlock = function(){
+    for(var i =0;i<this.elements.length;i++){
+        this.elements[i].style.display = 'none';
+    }
+    return this;
+};
  //触发click事件
     Base.prototype.click=function(fn){
         for(var i=0;i<this.elements.length;i++){
@@ -167,7 +229,12 @@ Base.prototype.hide=function(){
         }
         return this;
     };
+//触发浏览器窗口大小
+Base.prototype.resize = function(fn){
+    window.onresize = fn;
+    return this;
 
+}
 //封装下拉菜单
 window.onload=function(){
     $().getClass('member').hover(function(){
