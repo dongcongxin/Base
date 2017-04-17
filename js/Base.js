@@ -244,8 +244,43 @@ window.onload=function(){
     })
 }
 
+/***********Object************/
+var robot = {
+    name:'Robot',
+    height:1.6,
+    run:function(){
+        console.log(this.name+"is running...");
+    }
+};
 
+var Student = {
+    name:'Robot',
+    height:1.2,
+    run:function(){
+        console.log(this.name+"is running...");
+    }
+};
 
+var xiaoming = {
+    name:'小明';
+};
+xiaoming.name;//‘小明’
+xiaoming.run();
 
+var Bird = {
+    fly:function(){
+        console.log(this.name+'is flying...');
+    }
+}
+xiaoming._prototype_=Bird;
 
-
+//构造函数
+function Student(name){
+    this.name=name;
+}
+Student.prototype.hello = function(){
+    console.log('Hello'+this.name);
+}
+var xiaoming = new Student('小明');
+xiaoming.name//'小明'
+xiaoming.hello();//Hello,'小明'
