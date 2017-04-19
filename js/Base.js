@@ -204,6 +204,22 @@ function delectRule(sheet,index){
     }
 
 }
+//跨浏览器事件绑定
+function addEvent(obj,type,fn){
+    if(typeof obj.addEventListener!='undefined'){
+        obj.addEventListener(type,fn,false);
+    }else if(typeof obj.attachEvent!='undefined'){
+        obj.attachEvent('on'+type,fn);
+    }
+}
+//绑定浏览器删除事件
+function removeEvent(obj,type,fn){
+    if(typeof obj,removeEventListener!='undefined'){
+        obj.removeEventListener(type,fn,false);
+    }else if(typeof obj.detachEvent!='undefined'){
+        obj.detachEvent('on'+type,fn);
+    }
+}
 /***********************************************/
 //锁屏功能
 Base.prototype.lock = function(){
@@ -284,3 +300,24 @@ Student.prototype.hello = function(){
 var xiaoming = new Student('小明');
 xiaoming.name//'小明'
 xiaoming.hello();//Hello,'小明'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
