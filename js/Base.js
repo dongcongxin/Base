@@ -208,16 +208,22 @@ function delectRule(sheet,index){
 function addEvent(obj,type,fn){
     if(typeof obj.addEventListener!='undefined'){
         obj.addEventListener(type,fn,false);
-    }else if(typeof obj.attachEvent!='undefined'){
-        obj.attachEvent('on'+type,fn);
+    }else {
+    //创建一个存放事件的哈希表（散列表）
+        //obj.events={};
+        if(!obj.events)obj.events={};
+        //创建一个存放事件处理函数的数组
     }
+
 }
+//为每个事件分配一个计数器
+addEvent.ID=1;
 //绑定浏览器删除事件
 function removeEvent(obj,type,fn){
     if(typeof obj,removeEventListener!='undefined'){
         obj.removeEventListener(type,fn,false);
-    }else if(typeof obj.detachEvent!='undefined'){
-        obj.detachEvent('on'+type,fn);
+    }else {
+
     }
 }
 /***********************************************/
