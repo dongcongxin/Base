@@ -307,6 +307,8 @@ var xiaoming = new Student('小明');
 xiaoming.name//'小明'
 xiaoming.hello();//Hello,'小明'
 
+console.log('月月');
+
 
 
 
