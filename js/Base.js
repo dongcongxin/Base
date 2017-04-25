@@ -204,16 +204,42 @@ function delectRule(sheet,index){
     }
 
 }
+/*
+   //实现累加,并且清晰的指出是给addEvent用的
+     //JS一切皆为对象,所以addEvent.ID语法正确,实际上是个全局变量
+     alert(addEvent.ID);
+     addEvent.ID++;
+*/
+
 //跨浏览器事件绑定
 function addEvent(obj,type,fn){
     if(typeof obj.addEventListener!='undefined'){
         obj.addEventListener(type,fn,false);
-    }else {
-    //创建一个存放事件的哈希表（散列表）
+    }else{
+        //创建一个存放事件的哈希表（散列表）
         //obj.events={};
-        if(!obj.events)obj.events={};
-        //创建一个存放事件处理函数的数组
-    }
+      if(!obj.events) obj.events={};
+        //第一次执行时执行
+        if(!obj.events[type]){
+            //创建一个存放事件处理函数的数组
+            obj.events[type]=[];
+            //把第一次的事件处理函数先存储到第一个位置上
+            if(obj['on'+type])obj.events[type][0]=fn;
+
+        };
+        //第二次开始执行我们用事件计数器来存储
+        obj.events[type][++addEvent.ID]=fn;
+        //执行事件处理函数
+        obj['on'+type]=function(){
+            for(var i in obj.events[type]){
+                obj.events[type][i]();
+            }
+        };
+
+
+
+}
+
 
 }
 //为每个事件分配一个计数器
@@ -223,7 +249,7 @@ function removeEvent(obj,type,fn){
     if(typeof obj,removeEventListener!='undefined'){
         obj.removeEventListener(type,fn,false);
     }else {
-
+        alert(obj,events);
     }
 }
 /***********************************************/
@@ -266,48 +292,8 @@ window.onload=function(){
     })
 }
 
-/***********Object************/
-var robot = {
-    name:'Robot',
-    height:1.6,
-    run:function(){
-        console.log(this.name+"is running...");
-    }
-};
 
-var Student = {
-    name:'Robot',
-    height:1.2,
-    run:function(){
-        console.log(this.name+"is running...");
-    }
-};
 
-var xiaoming = {
-    name:'小明';
-};
-xiaoming.name;//‘小明’
-xiaoming.run();
-
-var Bird = {
-    fly:function(){
-        console.log(this.name+'is flying...');
-    }
-}
-xiaoming._prototype_=Bird;
-
-//构造函数
-function Student(name){
-    this.name=name;
-}
-Student.prototype.hello = function(){
-    console.log('Hello'+this.name);
-}
-var xiaoming = new Student('小明');
-xiaoming.name//'小明'
-xiaoming.hello();//Hello,'小明'
-
-console.log('月月');
 
 
 
